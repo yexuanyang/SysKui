@@ -1,0 +1,180 @@
+{
+    "200": {
+        "bit_index": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "201": {
+        "bit_index": [
+            4,
+            5,
+            6,
+            7
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "202": {
+        "bit_index": [
+            8,
+            9,
+            10,
+            11
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "203": {
+        "bit_index": [
+            12,
+            13,
+            14,
+            15
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "204": {
+        "bit_index": [
+            16,
+            17,
+            18,
+            19
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "205": {
+        "bit_index": [
+            20,
+            21,
+            22,
+            23
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "206": {
+        "bit_index": [
+            24,
+            25,
+            26,
+            27
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "207": {
+        "bit_index": [
+            28,
+            29,
+            30,
+            31
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "208": {
+        "bit_index": [
+            32,
+            33,
+            34,
+            35
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "209": {
+        "bit_index": [
+            36,
+            37,
+            38,
+            39
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "210": {
+        "bit_index": [
+            40,
+            41,
+            42,
+            43
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "211": {
+        "bit_index": [
+            44,
+            45,
+            46,
+            47
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "212": {
+        "bit_index": [
+            48,
+            49,
+            50,
+            51
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "213": {
+        "bit_index": [
+            52,
+            53,
+            54,
+            55
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "214": {
+        "bit_index": [
+            56,
+            57,
+            58,
+            59
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "215": {
+        "bit_index": [
+            60,
+            61,
+            62,
+            63
+        ],
+        "panic_count": "1",
+        "fault_count": "4",
+        "register": "pc"
+    },
+    "total_panic": 16,
+    "total_fault": 64
+}

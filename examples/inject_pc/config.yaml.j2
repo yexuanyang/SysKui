@@ -1,0 +1,89 @@
+actions:
+- deploy:
+    images:
+      kernel:
+        image_arg: -kernel {kernel}
+        url: file:///root/lava-qemu-flip/pvpanic_Image
+      rootfs:
+        image_arg: -drive file={rootfs},format=qcow2,index=0,media=disk
+        url: file:///root/lava-qemu-flip/ubuntu-mini.qcow2
+    timeout:
+      minutes: 5
+    to: tmpfs
+- boot:
+    auto_login:
+      login_prompt: 'rros login:'
+      password: root
+      password_prompt: 'Password:'
+      username: root
+    media: tmpfs
+    method: qemu
+    prompts:
+    - 'root@rros:'
+    timeout:
+      minutes: 5
+    fault_inject_params:
+        commands: 
+        - source /root/lava-qemu-flip/SysKui/flip_simulation/gdb/fliputils.py
+        - target remote {{gdb_socket}}
+        - maintenance packet Qqemu.PhyMemMode:1
+        - monitor savevm foo
+        - loginject --filename {{logfile}}
+        {% for register, bit_index in pairs %}
+        - snapinject --total-fault-number 1 --min-interval 0 --max-interval 0 --fault-type reg --fault-location {{register}} --bit-index {{bit_index}} --observe-time 10s --snapshot-tag foo --serial-socket {{serial_socket}}
+        {% endfor %}
+        stdout: {{output}}
+        stderr: {{error_output}}
+        qmp_socket: {{qmp_socket}}
+        ssh_port: {{ssh_port}}
+        ssh_host: localhost
+        inject_after_boot: true
+        serial_socket: {{serial_socket}}
+- test:
+    timeout:
+      minutes: 5
+    definitions:
+    - repository:
+        metadata:
+          format: Lava-Test Test Definition 1.0
+          name: apache-server
+          description: "server installation"
+          os:
+          - debian
+          scope:
+          - functional
+        run:
+          steps:
+          - echo "hello"
+          - sleep 90
+      # remember to use -y to allow apt to proceed without interaction
+      # -q simplifies the apt output for logging.
+      from: inline
+      name: apache-server
+      path: inline/apache-server.yaml
+context:
+  arch: aarch64
+  cpu: cortex-a57
+  extra_options:
+  - -smp 1
+  - -append "console=ttyAMA0 root=/dev/vda2 rw"
+  - -qmp unix:{{qmp_socket}},server=on,wait=off
+  - -chardev socket,path={{gdb_socket}},server=on,wait=off,id=gdb0
+  - -gdb chardev:gdb0
+  - -device pvpanic-pci
+  - -action shutdown=pause,panic=none
+  guestfs_interface: virtio
+  machine: virt
+  memory: 4G
+  netdevice: user,hostfwd=::{{ssh_port}}-:22
+device_type: qemu
+job_name: "{{number}}: Inject faults to {{registers}} index {{bit_indices}}, ssh_port {{ssh_port}}, gdb_socket {{gdb_socket}}, qmp_socket {{qmp_socket}}, logfile {{logfile}}, output {{output}}"
+priority: medium
+timeouts:
+  action:
+    minutes: 10
+  connection:
+    minutes: 2
+  job:
+    minutes: 15
+visibility: public
