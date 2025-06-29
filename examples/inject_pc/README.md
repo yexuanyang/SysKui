@@ -17,7 +17,7 @@ This example show how to inject faults to register pc in SysKui.
 Modify the params to fit your environment.
 
 ```bash
-python3 generate_job.py --qemu-number 16 --xmlrpc-url "http://admin:longrandomtokenadmin@10.161.28.20:9999/RPC2/"
+python3 generate_job.py --register pc --qemu-number 16 --xmlrpc-url "http://admin:longrandomtokenadmin@10.161.28.20:9999/RPC2/"
 
 # Check the jobs.txt
 cat jobs.txt

@@ -1,179 +1,475 @@
 {
-    "200": {
+    "192": {
         "bit_index": [
             0,
             1,
             2,
             3
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fedc89210",
+                "0x7fedc89210",
+                "0x7fedc89210"
+            ],
+            "New Value": [
+                "0x7fedc89211",
+                "0x7fedc89212",
+                "0x7fedc89214"
+            ]
+        }
     },
-    "201": {
+    "193": {
         "bit_index": [
             4,
             5,
             6,
             7
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7ffe980630",
+                "0x7ffe980630"
+            ],
+            "New Value": [
+                "0x7ffe980620",
+                "0x7ffe980610"
+            ]
+        }
     },
-    "202": {
+    "194": {
         "bit_index": [
             8,
             9,
             10,
             11
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fc6cb7870",
+                "0x7fc6cb7870",
+                "0x7fc6cb7870",
+                "0x7fc6cb7870"
+            ],
+            "New Value": [
+                "0x7fc6cb7970",
+                "0x7fc6cb7a70",
+                "0x7fc6cb7c70",
+                "0x7fc6cb7070"
+            ]
+        }
     },
-    "203": {
+    "195": {
         "bit_index": [
             12,
             13,
             14,
             15
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fcd181160",
+                "0x7fcd181160",
+                "0x7fcd181160",
+                "0x7fcd181160"
+            ],
+            "New Value": [
+                "0x7fcd180160",
+                "0x7fcd183160",
+                "0x7fcd185160",
+                "0x7fcd189160"
+            ]
+        }
     },
-    "204": {
+    "196": {
         "bit_index": [
             16,
             17,
             18,
             19
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0xffffffc011cc4000",
+                "0xffffffc011cc4000",
+                "0xffffffc011cc4000",
+                "0xffffffc011cc4000"
+            ],
+            "New Value": [
+                "0xffffffc011cd4000",
+                "0xffffffc011ce4000",
+                "0xffffffc011c84000",
+                "0xffffffc011c44000"
+            ]
+        }
     },
-    "205": {
+    "197": {
         "bit_index": [
             20,
             21,
             22,
             23
         ],
-        "panic_count": "1",
+        "panic_count": "4",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0xffffffc010003ba0",
+                "0xffffffc010003ba0",
+                "0xffffffc010003ba0",
+                "0xffffffc010003ba0"
+            ],
+            "New Value": [
+                "0xffffffc010103ba0",
+                "0xffffffc010203ba0",
+                "0xffffffc010403ba0",
+                "0xffffffc010803ba0"
+            ]
+        }
     },
-    "206": {
+    "198": {
         "bit_index": [
             24,
             25,
             26,
             27
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fdf493dc0",
+                "0x7fdf493dc0"
+            ],
+            "New Value": [
+                "0x7fde493dc0",
+                "0x7fdd493dc0"
+            ]
+        }
     },
-    "207": {
+    "199": {
         "bit_index": [
             28,
             29,
             30,
             31
         ],
-        "panic_count": "1",
+        "panic_count": "4",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fd1465c30",
+                "0x7fd1465c30",
+                "0x7fd1465c30",
+                "0x7fd1465c30"
+            ],
+            "New Value": [
+                "0x7fc1465c30",
+                "0x7ff1465c30",
+                "0x7f91465c30",
+                "0x7f51465c30"
+            ]
+        }
     },
-    "208": {
+    "200": {
         "bit_index": [
             32,
             33,
             34,
             35
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fff0c98c0",
+                "0x7fff0c98c0",
+                "0x7fff0c98c0",
+                "0x7fff0c98c0"
+            ],
+            "New Value": [
+                "0x7eff0c98c0",
+                "0x7dff0c98c0",
+                "0x7bff0c98c0",
+                "0x77ff0c98c0"
+            ]
+        }
     },
-    "209": {
+    "201": {
         "bit_index": [
             36,
             37,
             38,
             39
         ],
-        "panic_count": "1",
+        "panic_count": "4",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0xffffffc010003d60",
+                "0xffffffc010003d60",
+                "0xffffffc010003d60",
+                "0xffffffc010003d60"
+            ],
+            "New Value": [
+                "0xffffffd010003d60",
+                "0xffffffe010003d60",
+                "0xffffff8010003d60",
+                "0xffffff4010003d60"
+            ]
+        }
     },
-    "210": {
+    "202": {
         "bit_index": [
             40,
             41,
             42,
             43
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7ffbe2aa50",
+                "0x7ffbe2aa50",
+                "0x7ffbe2aa50",
+                "0x7ffbe2aa50"
+            ],
+            "New Value": [
+                "0x17ffbe2aa50",
+                "0x27ffbe2aa50",
+                "0x47ffbe2aa50",
+                "0x87ffbe2aa50"
+            ]
+        }
     },
-    "211": {
+    "203": {
         "bit_index": [
             44,
             45,
             46,
             47
         ],
-        "panic_count": "1",
+        "panic_count": "4",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0xffffffc010003d20",
+                "0xffffffc010003d20",
+                "0xffffffc010003d20",
+                "0xffffffc010003d20"
+            ],
+            "New Value": [
+                "0xffffefc010003d20",
+                "0xffffdfc010003d20",
+                "0xffffbfc010003d20",
+                "0xffff7fc010003d20"
+            ]
+        }
     },
-    "212": {
+    "204": {
         "bit_index": [
             48,
             49,
             50,
             51
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fe815d0d0",
+                "0x7fe815d0d0",
+                "0x7fe815d0d0",
+                "0x7fe815d0d0"
+            ],
+            "New Value": [
+                "0x1007fe815d0d0",
+                "0x2007fe815d0d0",
+                "0x4007fe815d0d0",
+                "0x8007fe815d0d0"
+            ]
+        }
     },
-    "213": {
+    "205": {
         "bit_index": [
             52,
             53,
             54,
             55
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0xffffffc010003de0",
+                "0xffffffc010003de0",
+                "0xffffffc010003de0",
+                "0xffffffc010003de0"
+            ],
+            "New Value": [
+                "0xffefffc010003de0",
+                "0xffdfffc010003de0",
+                "0xffbfffc010003de0",
+                "0xff7fffc010003de0"
+            ]
+        }
     },
-    "214": {
+    "206": {
         "bit_index": [
             56,
             57,
             58,
             59
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp",
+                "sp",
+                "sp",
+                "sp"
+            ],
+            "Old Value": [
+                "0xffffffc010003cc0",
+                "0xffffffc010003cc0",
+                "0xffffffc010003cc0",
+                "0xffffffc010003cc0"
+            ],
+            "New Value": [
+                "0xfeffffc010003cc0",
+                "0xfdffffc010003cc0",
+                "0xfbffffc010003cc0",
+                "0xf7ffffc010003cc0"
+            ]
+        }
     },
-    "215": {
+    "207": {
         "bit_index": [
             60,
             61,
             62,
             63
         ],
-        "panic_count": "1",
+        "panic_count": "0",
         "fault_count": "4",
-        "register": "pc"
+        "register": "sp",
+        "log": {
+            "Address/Register": [
+                "sp"
+            ],
+            "Old Value": [
+                "0x7fe4d2a090"
+            ],
+            "New Value": [
+                "0x1000007fe4d2a090"
+            ]
+        }
     },
     "total_panic": 16,
     "total_fault": 64

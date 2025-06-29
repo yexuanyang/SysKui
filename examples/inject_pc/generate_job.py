@@ -4,15 +4,20 @@ import xmlrpc.client
 from jinja2 import Environment, FileSystemLoader
 
 
-def gen_data(number):
+def gen_data(register: str, number: int):
+    """
+    :param: register - the register to inject faults
+    :param: number - the index of qemu instance
+    :return: the dict to render the config.yaml
+    """
     data = {
         "number": number,
         "gdb_socket": f"/tmp/gdb-server-{number}.sock",
         "pairs": [
-            ("pc", number * 4),
-            ("pc", number * 4 + 1),
-            ("pc", number * 4 + 2),
-            ("pc", number * 4 + 3),
+            (register, number * 4),
+            (register, number * 4 + 1),
+            (register, number * 4 + 2),
+            (register, number * 4 + 3),
         ],
         "logfile": f"/tmp/log-{number}.csv",
         "output": f"/tmp/{number}.out",
@@ -32,6 +37,12 @@ if __name__ == "__main__":
     jobs = []
     parser = argparse.ArgumentParser(prog="generate_job")
     parser.add_argument(
+        "--register",
+        type=str,
+        help="The register inject faults to",
+        required=True
+    )
+    parser.add_argument(
         "--qemu-number",
         type=int,
         help="QEMU device number",
@@ -49,11 +60,11 @@ if __name__ == "__main__":
 
     for number in range(0, args.qemu_number):
         # Render template
-        rendered_yaml = template.render(gen_data(number))
+        rendered_yaml = template.render(gen_data(args.register, number))
         # Submit job
         server = xmlrpc.client.ServerProxy(args.xmlrpc_url)
         jobid = server.scheduler.submit_job(rendered_yaml)
         print(jobid)
         jobs.append(jobid)
     with open("jobs.txt", "w") as f:
-        f.write(str(jobs))
+        f.write(str(jobs) + "\n")
