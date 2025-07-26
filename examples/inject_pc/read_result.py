@@ -7,17 +7,24 @@ if __name__ == "__main__":
     results = {}
     parser = argparse.ArgumentParser(prog="read_result")
     parser.add_argument("--container", required=True, help="container id of lava-slave")
+    parser.add_argument("--output", "-o", required=True, help="result output file")
+    parser.add_argument(
+        "--input", "-i", required=True, help="job input file, store the jobs' id"
+    )
+    parser.add_argument(
+        "--register", "-r", required=True, help="the register jobs to read"
+    )
 
     args = parser.parse_args()
 
-    with open("jobs.txt", "r") as f:
+    with open(args.input, "r") as f:
         jobs = eval(f.read())
 
         total_fault = 0
         total_panic = 0
         for index, jobid in enumerate(jobs):
             dir_path = f"/tmp/{jobid}"
-            log_path = f"/tmp/log-{index}.csv"
+            log_path = f"/tmp/log-{index}-{args.register}.csv"
             bit_index = list(range(index * 4, index * 4 + 4))
             panic_file = os.path.join(dir_path, "panic_count.txt")
             fault_file = os.path.join(dir_path, "fault_number.txt")
@@ -69,6 +76,6 @@ if __name__ == "__main__":
 
         results["total_panic"] = total_panic
         results["total_fault"] = total_fault
-        with open("results.json", "w") as f:
+        with open(args.output, "w") as f:
             json.dump(results, f, indent=4, ensure_ascii=False)
         print(f"total_panic/total_fault: {total_panic}/{total_fault}")
