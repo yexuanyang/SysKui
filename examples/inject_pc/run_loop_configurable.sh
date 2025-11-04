@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 可配置的循环运行脚本
-# 使用方法: ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment] [suffix]
-# 例如: ./run_loop_configurable.sh 10 30 3800 100 2
+# 使用方法: ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment] [suffix_start] [suffix_end] [output_dir]
+# 例如: ./run_loop_configurable.sh 10 30 3800 100 2 20
 
 # 默认参数
 START_REGISTER=${1:-10}
@@ -10,7 +10,8 @@ END_REGISTER=${2:-30}
 START_PORT=${3:-3800}
 PORT_INCREMENT=${4:-100}
 SUFFIX_START=${5:-2}
-SUFFIX_END=${6:-2}
+SUFFIX_END=${6:-4}
+OUPUT_DIR=${7:-"/root/lava-qemu-flip/exp-results/jobs"}
 
 echo "配置参数："
 echo "  Register 范围: x${START_REGISTER} 到 x${END_REGISTER}"
@@ -38,8 +39,8 @@ fail_count=0
 for i in $(seq $START_REGISTER $END_REGISTER); do
     register="x${i}"
     
-    for suffix in $(seq 1 $SUFFIX); do
-        job_file="${register}-${suffix}.txt"
+    for suffix in $(seq $SUFFIX_START $SUFFIX_END); do
+        job_file="${OUPUT_DIR}/${register}-${suffix}.txt"
         
         echo "[$((success_count + fail_count + 1))] 正在运行: --suffix ${suffix} --register ${register} -j ${job_file} -p ${port}"
         

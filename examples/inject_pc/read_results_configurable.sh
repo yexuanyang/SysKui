@@ -1,16 +1,17 @@
 #!/bin/bash
 
 # 可配置的循环读取结果脚本
-# 使用方法: ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir] [suffix]
-# 例如: ./read_results_configurable.sh 31a6dc5f7fc6 3 30 /root/lava-qemu-flip/exp-results 2
+# 使用方法: ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir] [suffix_start] [suffix_end] [input_dir]
+# 例如: ./read_results_configurable.sh 31a6dc5f7fc6 3 30 /root/lava-qemu-flip/exp-results 2 20
 
 # 默认参数
 CONTAINER_ID=${1:-"31a6dc5f7fc6"}
 START_REGISTER=${2:-0}
 END_REGISTER=${3:-30}
-OUTPUT_DIR=${4:-"/root/lava-qemu-flip/exp-results"}
+OUTPUT_DIR=${4:-"/root/lava-qemu-flip/exp-results/results"}
 SUFFIX_START=${5:-2}
-SUFFIX_END=${6:-2}
+SUFFIX_END=${6:-4}
+INPUT_DIR=${7:-"/root/lava-qemu-flip/exp-results/jobs"}
 
 echo "配置参数："
 echo "  容器ID: ${CONTAINER_ID}"
@@ -44,8 +45,8 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
     register="x${i}"
     
     # 对于每个register，处理多个文件：-1.txt, -2.txt, -3.txt ... -${suffix}.txt
-    for suffix in $(seq 1 $SUFFIX); do
-        input_file="${register}-${suffix}.txt"
+    for suffix in $(seq $SUFFIX_START $SUFFIX_END); do
+        input_file="${INPUT_DIR}/${register}-${suffix}.txt"
         output_file="${OUTPUT_DIR}/${register}-${suffix}.json"
         
         # 检查输入文件是否存在
