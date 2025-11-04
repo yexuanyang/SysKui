@@ -4,6 +4,8 @@ This example show how to inject faults to register pc in SysKui.
 
 `generate_job.py` generate jobs, which will launch qemu and inject faults to register pc, and submit them to lava. It need some param to run, check the code for details. The generated `job_id`s will be stored in file `jobs.txt`.
 
+> Note that argument `qemu-number` can not exceed **16**, one qemu will change 4 bits, so 64 bits register should only have 16 qemu to inject faults.
+
 `read_result.py` get the results about panic. It takes `jobs.txt` as input and get the results in the lava-slave container. Result show the panic percentage, it is stored in file `results.json`.
 
 # steps
@@ -42,3 +44,5 @@ python3 read_result.py --container e4855782d78c
 # Check the results.json
 less results.json
 ```
+
+Use `read_results_configurable.sh` and `run_loop_configurable.sh` to `read` and `create` respectively

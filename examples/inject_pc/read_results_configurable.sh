@@ -1,20 +1,24 @@
 #!/bin/bash
 
 # 可配置的循环读取结果脚本
-# 使用方法: ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir]
-# 例如: ./read_results_configurable.sh 31a6dc5f7fc6 3 30 /root/lava-qemu-flip/exp-results
+# 使用方法: ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir] [suffix]
+# 例如: ./read_results_configurable.sh 31a6dc5f7fc6 3 30 /root/lava-qemu-flip/exp-results 2
 
 # 默认参数
 CONTAINER_ID=${1:-"31a6dc5f7fc6"}
 START_REGISTER=${2:-0}
 END_REGISTER=${3:-30}
 OUTPUT_DIR=${4:-"/root/lava-qemu-flip/exp-results"}
+SUFFIX_START=${5:-2}
+SUFFIX_END=${6:-2}
 
 echo "配置参数："
 echo "  容器ID: ${CONTAINER_ID}"
 echo "  Register 范围: x${START_REGISTER} 到 x${END_REGISTER}"
 echo "  输出目录: ${OUTPUT_DIR}"
-echo "  预计处理任务数: $(((END_REGISTER - START_REGISTER + 1) * 2))"
+echo "  后缀开始处: ${SUFFIX_START}"
+echo "  后缀结束处: ${SUFFIX_END}"
+echo "  预计处理任务数: $(((END_REGISTER - START_REGISTER + 1) * (SUFFIX_END - SUFFIX_START + 1)))"
 echo ""
 
 # 询问是否继续
@@ -39,8 +43,8 @@ start_time=$(date +%s)
 for i in $(seq $START_REGISTER $END_REGISTER); do
     register="x${i}"
     
-    # 对于每个register，处理两个文件：-1.txt 和 -2.txt
-    for suffix in 1 2; do
+    # 对于每个register，处理多个文件：-1.txt, -2.txt, -3.txt ... -${suffix}.txt
+    for suffix in $(seq 1 $SUFFIX); do
         input_file="${register}-${suffix}.txt"
         output_file="${OUTPUT_DIR}/${register}-${suffix}.json"
         
@@ -61,7 +65,7 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
         echo "    输出到: ${output_file}"
         
         # 执行命令
-        python3 read_result.py --container "$CONTAINER_ID" -o "$output_file" -i "$input_file" --register "$register"
+        python3 read_result.py --container "$CONTAINER_ID" -o "$output_file" -i "$input_file" --register "$register" --suffix "$suffix"
         
         # 检查命令是否成功执行
         if [ $? -eq 0 ]; then

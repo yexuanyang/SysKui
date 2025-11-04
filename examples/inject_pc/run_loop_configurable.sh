@@ -1,20 +1,24 @@
 #!/bin/bash
 
 # 可配置的循环运行脚本
-# 使用方法: ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment]
-# 例如: ./run_loop_configurable.sh 10 30 3800 100
+# 使用方法: ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment] [suffix]
+# 例如: ./run_loop_configurable.sh 10 30 3800 100 2
 
 # 默认参数
 START_REGISTER=${1:-10}
 END_REGISTER=${2:-30}
 START_PORT=${3:-3800}
 PORT_INCREMENT=${4:-100}
+SUFFIX_START=${5:-2}
+SUFFIX_END=${6:-2}
 
 echo "配置参数："
 echo "  Register 范围: x${START_REGISTER} 到 x${END_REGISTER}"
 echo "  起始端口: ${START_PORT}"
 echo "  端口递增: ${PORT_INCREMENT}"
-echo "  预计运行任务数: $(((END_REGISTER - START_REGISTER + 1) * 2))"
+echo "  后缀开始处(包含): ${SUFFIX_START}"
+echo "  后缀结束处(包含): ${SUFFIX_END}"
+echo "  预计运行任务数: $(((END_REGISTER - START_REGISTER + 1) * (SUFFIX_END - SUFFIX_START + 1)))"
 echo ""
 
 # 询问是否继续
@@ -34,17 +38,10 @@ fail_count=0
 for i in $(seq $START_REGISTER $END_REGISTER); do
     register="x${i}"
     
-    # 检查对应的文件是否存在
-    for suffix in 1 2; do
+    for suffix in $(seq 1 $SUFFIX); do
         job_file="${register}-${suffix}.txt"
         
-        if [ ! -f "$job_file" ]; then
-            echo "⚠️  警告: 文件 ${job_file} 不存在，跳过"
-            port=$((port + PORT_INCREMENT))
-            continue
-        fi
-        
-        echo "[$((success_count + fail_count + 1))] 正在运行: --register ${register} -j ${job_file} -p ${port}"
+        echo "[$((success_count + fail_count + 1))] 正在运行: --suffix ${suffix} --register ${register} -j ${job_file} -p ${port}"
         
         # 执行命令
         python3 generate_job.py --suffix ${suffix} --register ${register} -j ${job_file} -p ${port} --qemu-number 16 --xmlrpc-url http://admin:longrandomtokenadmin@127.0.0.1:9999/RPC2/

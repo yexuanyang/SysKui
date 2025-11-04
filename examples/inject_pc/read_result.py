@@ -14,6 +14,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--register", "-r", required=True, help="the register jobs to read"
     )
+    parser.add_argument(
+        "--suffix",
+        required=True,
+        help="the suffix of log file in container",
+    )
 
     args = parser.parse_args()
 
@@ -24,7 +29,7 @@ if __name__ == "__main__":
         total_panic = 0
         for index, jobid in enumerate(jobs):
             dir_path = f"/tmp/{jobid}"
-            log_path = f"/tmp/log-{index}-{args.register}.csv"
+            log_path = f"/tmp/log-{index}-{args.register}-{args.suffix}.csv"
             bit_index = list(range(index * 4, index * 4 + 4))
             panic_file = os.path.join(dir_path, "panic_count.txt")
             fault_file = os.path.join(dir_path, "fault_number.txt")
