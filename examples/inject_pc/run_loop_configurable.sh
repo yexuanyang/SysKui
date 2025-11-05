@@ -46,7 +46,7 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
         echo "[$((success_count + fail_count + 1))] 正在运行: --kernel ${KERNEL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port}"
         
         # 执行命令
-        python3 generate_job.py --kernel ${KENREL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port} --qemu-number 16 --xmlrpc-url http://admin:longrandomtokenadmin@127.0.0.1:9999/RPC2/
+        python3 generate_job.py --kernel ${KERNEL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port} --qemu-number 16 --xmlrpc-url http://admin:longrandomtokenadmin@127.0.0.1:9999/RPC2/
         
         # 检查命令是否成功执行
         if [ $? -eq 0 ]; then
