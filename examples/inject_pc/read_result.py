@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import subprocess
+import sys
 
 if __name__ == "__main__":
     results = {}
@@ -19,6 +20,13 @@ if __name__ == "__main__":
         required=True,
         help="the suffix of log file in container",
     )
+    parser.add_argument(
+        "--kernel",
+        help="kernel to use",
+        type=str,
+        choices=["linux", "openeuler", "phytium"],
+        required=True,
+    )
 
     args = parser.parse_args()
 
@@ -29,7 +37,9 @@ if __name__ == "__main__":
         total_panic = 0
         for index, jobid in enumerate(jobs):
             dir_path = f"/tmp/{jobid}"
-            log_path = f"/tmp/log-{index}-{args.register}-{args.suffix}.csv"
+            log_path = (
+                f"/tmp/log-{args.kernel}-{index}-{args.register}-{args.suffix}.csv"
+            )
             bit_index = list(range(index * 4, index * 4 + 4))
             panic_file = os.path.join(dir_path, "panic_count.txt")
             fault_file = os.path.join(dir_path, "fault_number.txt")
@@ -63,8 +73,13 @@ if __name__ == "__main__":
                     if index == 0 and reg == "":
                         reg = v
 
-            total_panic += int(panic_count, 10)
-            total_fault += int(fault_count, 10)
+            if panic_count != "" and fault_count != "":
+                total_panic += int(panic_count, 10)
+                total_fault += int(fault_count, 10)
+            else:
+                print(f"{jobid} shoud resubmit", file=sys.stderr)
+                panic_count = 0
+                fault_count = 0
 
             results[jobid] = {
                 "bit_index": bit_index,

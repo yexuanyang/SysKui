@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 可配置的循环运行脚本
-# 使用方法: ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment] [suffix_start] [suffix_end] [output_dir]
-# 例如: ./run_loop_configurable.sh 10 30 3800 100 2 20
+# 使用方法: ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment] [suffix_start] [suffix_end] [output_dir] [kernel]
+# 例如: ./run_loop_configurable.sh 10 30 3800 100 2 20 /root/lava-qemu-flip/exp-results/jobs linux
 
 # 默认参数
 START_REGISTER=${1:-10}
@@ -12,6 +12,7 @@ PORT_INCREMENT=${4:-100}
 SUFFIX_START=${5:-2}
 SUFFIX_END=${6:-4}
 OUPUT_DIR=${7:-"/root/lava-qemu-flip/exp-results/jobs"}
+KENREL=${8:-"linux"}
 
 echo "配置参数："
 echo "  Register 范围: x${START_REGISTER} 到 x${END_REGISTER}"
@@ -40,12 +41,12 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
     register="x${i}"
     
     for suffix in $(seq $SUFFIX_START $SUFFIX_END); do
-        job_file="${OUPUT_DIR}/${register}-${suffix}.txt"
+        job_file="${OUPUT_DIR}/${KERNEL}-${register}-${suffix}.txt"
         
-        echo "[$((success_count + fail_count + 1))] 正在运行: --suffix ${suffix} --register ${register} -j ${job_file} -p ${port}"
+        echo "[$((success_count + fail_count + 1))] 正在运行: --kernel ${KENREL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port}"
         
         # 执行命令
-        python3 generate_job.py --suffix ${suffix} --register ${register} -j ${job_file} -p ${port} --qemu-number 16 --xmlrpc-url http://admin:longrandomtokenadmin@127.0.0.1:9999/RPC2/
+        python3 generate_job.py --kernel ${KENREL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port} --qemu-number 16 --xmlrpc-url http://admin:longrandomtokenadmin@127.0.0.1:9999/RPC2/
         
         # 检查命令是否成功执行
         if [ $? -eq 0 ]; then

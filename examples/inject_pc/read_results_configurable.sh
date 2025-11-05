@@ -1,8 +1,18 @@
 #!/bin/bash
 
 # 可配置的循环读取结果脚本
-# 使用方法: ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir] [suffix_start] [suffix_end] [input_dir]
-# 例如: ./read_results_configurable.sh 31a6dc5f7fc6 3 30 /root/lava-qemu-flip/exp-results 2 20
+# 使用方法: ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir] [suffix_start] [suffix_end] [input_dir] [--yes] [kernel]
+# 例如: ./read_results_configurable.sh 31a6dc5f7fc6 3 30 /root/lava-qemu-flip/exp-results/results 2 20 /root/lava-qemu-flip/exp-results/jobs linux
+# 添加 --yes 或 -y 参数可跳过确认直接执行
+
+# 检查是否有 --yes 或 -y 参数
+AUTO_YES=false
+for arg in "$@"; do
+    if [[ "$arg" == "--yes" ]] || [[ "$arg" == "-y" ]]; then
+        AUTO_YES=true
+        break
+    fi
+done
 
 # 默认参数
 CONTAINER_ID=${1:-"31a6dc5f7fc6"}
@@ -12,22 +22,27 @@ OUTPUT_DIR=${4:-"/root/lava-qemu-flip/exp-results/results"}
 SUFFIX_START=${5:-2}
 SUFFIX_END=${6:-4}
 INPUT_DIR=${7:-"/root/lava-qemu-flip/exp-results/jobs"}
+KERNEL=${8:-"linux"}
 
-echo "配置参数："
-echo "  容器ID: ${CONTAINER_ID}"
-echo "  Register 范围: x${START_REGISTER} 到 x${END_REGISTER}"
-echo "  输出目录: ${OUTPUT_DIR}"
-echo "  后缀开始处: ${SUFFIX_START}"
-echo "  后缀结束处: ${SUFFIX_END}"
-echo "  预计处理任务数: $(((END_REGISTER - START_REGISTER + 1) * (SUFFIX_END - SUFFIX_START + 1)))"
-echo ""
+echo "配置参数：" >&2
+echo "  容器ID: ${CONTAINER_ID}" >&2
+echo "  Register 范围: x${START_REGISTER} 到 x${END_REGISTER}" >&2
+echo "  输出目录: ${OUTPUT_DIR}" >&2
+echo "  后缀开始处: ${SUFFIX_START}" >&2
+echo "  后缀结束处: ${SUFFIX_END}" >&2
+echo "  预计处理任务数: $(((END_REGISTER - START_REGISTER + 1) * (SUFFIX_END - SUFFIX_START + 1)))" >&2
+echo "" >&2
 
-# 询问是否继续
-read -p "是否继续执行？(y/N): " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "取消执行"
-    exit 1
+# 询问是否继续（从 /dev/tty 读取以支持输出重定向场景）
+if [[ "$AUTO_YES" == false ]]; then
+    read -p "是否继续执行？(y/N): " -n 1 -r < /dev/tty
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "取消执行"
+        exit 1
+    fi
+else
+    echo "自动确认模式，跳过确认步骤" >&2
 fi
 
 # 确保输出目录存在
@@ -46,8 +61,9 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
     
     # 对于每个register，处理多个文件：-1.txt, -2.txt, -3.txt ... -${suffix}.txt
     for suffix in $(seq $SUFFIX_START $SUFFIX_END); do
-        input_file="${INPUT_DIR}/${register}-${suffix}.txt"
-        output_file="${OUTPUT_DIR}/${register}-${suffix}.json"
+        identifier="${KERNEL}-${register}-${suffix}"
+        input_file="${INPUT_DIR}/${identifier}.txt"
+        output_file="${OUTPUT_DIR}/${identifier}.json"
         
         # 检查输入文件是否存在
         if [ ! -f "$input_file" ]; then
@@ -85,7 +101,7 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
         fi
         
         # 显示进度
-        total_expected=$((((END_REGISTER - START_REGISTER + 1) * 2) - skip_count))
+        total_expected=$((((END_REGISTER - START_REGISTER + 1) * (SUFFIX_END - SUFFIX_START + 1)) - skip_count))
         completed=$((success_count + fail_count))
         if [ $total_expected -gt 0 ]; then
             progress=$((completed * 100 / total_expected))

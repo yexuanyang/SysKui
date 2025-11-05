@@ -52,8 +52,8 @@ Some examples:
 1. Create 100 error injection errors for each register from register x10 to x30. The suffix of the file recording the task number ranges from 1 to 100, inclusive of both ends.The port used starts from 3800, and the port used for each subsequent experiment increases by 100 in sequence.
 
 ```bash
-# ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment] [suffix_start] [suffix_end] [output_dir]
-./run_loop_configurable.sh 10 30 3800 100 1 100 /root/lava-qemu-flip/exp-results/jobs
+# ./run_loop_configurable.sh [start_register] [end_register] [start_port] [port_increment] [suffix_start] [suffix_end] [output_dir] [kernel]
+./run_loop_configurable.sh 10 30 3800 100 1 100 /root/lava-qemu-flip/exp-results/jobs linux
 ```
 
 2. Read the results of 100 error injections for registers x10 to x30. The suffix of the output file for results ranges from 1 to 100, inclusive of both ends. For example, for x10, the result files are x10-1.json, x10-2.json ... x10-100.json.
