@@ -12,7 +12,7 @@ PORT_INCREMENT=${4:-100}
 SUFFIX_START=${5:-2}
 SUFFIX_END=${6:-4}
 OUPUT_DIR=${7:-"/root/lava-qemu-flip/exp-results/jobs"}
-KENREL=${8:-"linux"}
+KERNEL=${8:-"linux"}
 
 echo "配置参数："
 echo "  Register 范围: x${START_REGISTER} 到 x${END_REGISTER}"
@@ -43,7 +43,7 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
     for suffix in $(seq $SUFFIX_START $SUFFIX_END); do
         job_file="${OUPUT_DIR}/${KERNEL}-${register}-${suffix}.txt"
         
-        echo "[$((success_count + fail_count + 1))] 正在运行: --kernel ${KENREL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port}"
+        echo "[$((success_count + fail_count + 1))] 正在运行: --kernel ${KERNEL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port}"
         
         # 执行命令
         python3 generate_job.py --kernel ${KENREL} --suffix ${suffix} --register ${register} -j ${job_file} -p ${port} --qemu-number 16 --xmlrpc-url http://admin:longrandomtokenadmin@127.0.0.1:9999/RPC2/
