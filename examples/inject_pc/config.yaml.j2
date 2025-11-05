@@ -6,7 +6,7 @@ actions:
         url: file:///root/lava-qemu-flip/kernels/{{kernel}}-6.6
       rootfs:
         image_arg: -drive file={rootfs},format=qcow2,index=0,media=disk
-        url: file:///root/lava-qemu-flip/disk_overlay.qcow2
+        url: file:///root/lava-qemu-flip/ubuntu-mini.qcow2
     timeout:
       minutes: 5
     to: tmpfs
@@ -56,7 +56,7 @@ actions:
         run:
           steps:
           - echo "hello"
-          - sleep 90
+          - sleep 60
       # remember to use -y to allow apt to proceed without interaction
       # -q simplifies the apt output for logging.
       from: inline
@@ -78,7 +78,7 @@ context:
   memory: 4G
   netdevice: user,hostfwd=::{{ssh_port}}-:22
 device_type: qemu
-job_name: "{{number}}: Use Kernel {{kernel}} Inject faults to {{registers}} index {{bit_indices}}, ssh_port {{ssh_port}}, gdb_socket {{gdb_socket}}, qmp_socket {{qmp_socket}}, logfile {{logfile}}, output {{output}}"
+job_name: "{{number}}:{{kernel}}, register {{registers}}, index {{bit_indices}}, ssh_port {{ssh_port}}, logfile {{logfile}}, output {{output}}"
 priority: medium
 timeouts:
   action:
