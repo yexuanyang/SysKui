@@ -77,7 +77,7 @@ if __name__ == "__main__":
                 total_panic += int(panic_count, 10)
                 total_fault += int(fault_count, 10)
             else:
-                print(f"{jobid} shoud resubmit", file=sys.stderr)
+                print(f"{jobid} should resubmit or not finished", file=sys.stderr)
                 panic_count = 0
                 fault_count = 0
 

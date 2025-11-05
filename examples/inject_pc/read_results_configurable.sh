@@ -82,7 +82,7 @@ for i in $(seq $START_REGISTER $END_REGISTER); do
         echo "    输出到: ${output_file}"
         
         # 执行命令
-        python3 read_result.py --container "$CONTAINER_ID" -o "$output_file" -i "$input_file" --register "$register" --suffix "$suffix"
+        python3 read_result.py --kernel "$KERNEL" --container "$CONTAINER_ID" -o "$output_file" -i "$input_file" --register "$register" --suffix "$suffix"
         
         # 检查命令是否成功执行
         if [ $? -eq 0 ]; then
@@ -130,13 +130,13 @@ echo "输出目录: ${OUTPUT_DIR}"
 echo ""
 echo "输出文件统计:"
 if [ -d "$OUTPUT_DIR" ]; then
-    json_files=$(find "$OUTPUT_DIR" -name "x*.json" -type f 2>/dev/null | wc -l)
+    json_files=$(find "$OUTPUT_DIR" -name "$KERNEL-x*.json" -type f 2>/dev/null | wc -l)
     echo "找到 ${json_files} 个 .json 输出文件"
     
     if [ $json_files -gt 0 ]; then
         echo ""
         echo "最近生成的文件 (最多显示10个):"
-        find "$OUTPUT_DIR" -name "x*.json" -type f -printf "%T@ %p\n" 2>/dev/null | \
+        find "$OUTPUT_DIR" -name "$KERNEL-x*.json" -type f -printf "%T@ %p\n" 2>/dev/null | \
         sort -nr | head -10 | while read timestamp file; do
             size=$(stat -c%s "$file" 2>/dev/null || echo "0")
             basename_file=$(basename "$file")
