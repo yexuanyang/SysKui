@@ -59,6 +59,6 @@ Some examples:
 2. Read the results of 100 error injections for registers x10 to x30. The suffix of the output file for results ranges from 1 to 100, inclusive of both ends. For example, for x10, the result files are x10-1.json, x10-2.json ... x10-100.json.
 
 ```bash
-# ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir] [suffix_start] [suffix_end] [input_dir]
-./read_results_configurable.sh fcd370440609 0 0 /root/lava-qemu-flip/exp-results/results 1 100 /root/lava-qemu-flip/exp-results/jobs
+# ./read_results_configurable.sh [container_id] [start_register] [end_register] [output_dir] [suffix_start] [suffix_end] [input_dir] [kernel]
+./read_results_configurable.sh fcd370440609 0 0 /root/lava-qemu-flip/exp-results/results 1 100 /root/lava-qemu-flip/exp-results/jobs linux
 ```

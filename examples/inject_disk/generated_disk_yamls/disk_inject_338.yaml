@@ -1,0 +1,81 @@
+
+actions:
+- deploy:
+    images:
+      kernel:
+        image_arg: -kernel {kernel}
+        url: file:///root/lava-qemu-flip/kernels/linux-6.6
+      rootfs:
+        image_arg: -drive file={rootfs},format=qcow2,index=0,media=disk
+        url: file:///root/lava-qemu-flip/ubuntu-mini.qcow2
+    timeout:
+      minutes: 5
+    to: tmpfs
+- boot:
+    auto_login:
+      login_prompt: 'rros login:'
+      password: root
+      password_prompt: 'Password:'
+      username: root
+    fault_inject_params:
+      commands:
+      # 读取注入点前的 64 字节数据作为参考
+      - sshcommand dd if=/dev/vda bs=1 count=64 skip=497886 | xxd
+      # 从 497886 字节处开始，写入 1048576 字节的 0
+      - sshcommand dd of=/dev/vda if=/dev/zero bs=1 count=1048576 seek=497886 conv=notrunc
+      inject_after_boot: true
+      qmp_socket: /tmp/qmp-disk_program_338.sock
+      serial_socket: /tmp/qemu-serial-disk_program_338.sock
+      ssh_host: localhost
+      ssh_port: 40338
+      stderr: /tmp/inject_disk_program_338.err
+      stdout: /tmp/inject_disk_program_338.out
+    media: tmpfs
+    method: qemu
+    prompts:
+    - 'root@rros:'
+    timeout:
+      minutes: 5
+- test:
+    definitions:
+    - from: inline
+      name: apache-server
+      path: inline/apache-server.yaml
+      repository:
+        metadata:
+          description: server installation
+          format: Lava-Test Test Definition 1.0
+          name: apache-server
+          os:
+          - debian
+          scope:
+          - functional
+        run:
+          steps:
+          - sleep 90
+    timeout:
+      minutes: 5
+context:
+  arch: aarch64
+  cpu: cortex-a57
+  extra_options:
+  - -smp 1
+  - -append "console=ttyAMA0 root=/dev/vda1 rw"
+  - -qmp unix:/tmp/qmp-disk_program_338.sock,server=on,wait=off
+  - -device pvpanic-pci
+  - -action shutdown=pause,panic=none
+  guestfs_interface: virtio
+  machine: virt
+  memory: 4G
+  netdevice: user,hostfwd=::40338-:22
+device_type: qemu
+job_name: "故障注入磁盘-338"
+priority: medium
+timeouts:
+  action:
+    minutes: 10
+  connection:
+    minutes: 2
+  job:
+    minutes: 15
+visibility: public
