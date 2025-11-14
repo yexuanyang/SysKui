@@ -1,9 +1,9 @@
 [submodule "flip_simulation"]
 	path = flip_simulation
-	url = https://github.com/SysKui/flip_simulation.git
+	url = git@github.com:SysKui/flip_simulation.git
 [submodule "lava"]
 	path = lava
-	url = https://github.com/SysKui/lava.git
+	url = git@github.com:SysKui/lava.git
 [submodule "lava-docker"]
 	path = lava-docker
-	url = https://github.com/SysKui/lava-docker.git
+	url = git@github.com:SysKui/lava-docker.git
