@@ -20,9 +20,9 @@ actions:
     fault_inject_params:
       commands:
       # 读取注入点前的 64 字节数据作为参考
-      - sshcommand dd if=/dev/vda bs=1 count=64 skip=470605529 | xxd
-      # 从 470605529 字节处开始，写入 1048576 字节的 0
-      - sshcommand dd of=/dev/vda if=/dev/zero bs=1 count=1048576 seek=470605529 conv=notrunc
+      - sshcommand dd if=/dev/vda bs=1 count=64 skip=73171770 | xxd
+      # 从 73171770 字节处开始，写入 1048576 字节的 0
+      - sshcommand dd of=/dev/vda if=/dev/zero bs=1 count=1048576 seek=73171770 conv=notrunc
       inject_after_boot: true
       qmp_socket: /tmp/qmp-disk_program_110.sock
       serial_socket: /tmp/qemu-serial-disk_program_110.sock
@@ -52,7 +52,7 @@ actions:
           - functional
         run:
           steps:
-          - sleep 90
+          - sleep 10
     timeout:
       minutes: 5
 context:
@@ -64,6 +64,8 @@ context:
   - -qmp unix:/tmp/qmp-disk_program_110.sock,server=on,wait=off
   - -device pvpanic-pci
   - -action shutdown=pause,panic=none
+  - -chardev socket,path=/tmp/gdb-server-110.sock,server=on,wait=off,id=gdb0
+  - -gdb chardev:gdb0
   guestfs_interface: virtio
   machine: virt
   memory: 4G

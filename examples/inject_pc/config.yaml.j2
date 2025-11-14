@@ -30,7 +30,7 @@ actions:
         - monitor savevm foo
         - loginject --filename {{logfile}}
         {% for register, bit_index in pairs %}
-        - snapinject --total-fault-number 1 --min-interval 0 --max-interval 0 --fault-type reg --fault-location {{register}} --bit-index {{bit_index}} --observe-time 10s --snapshot-tag foo --serial-socket {{serial_socket}}
+        - snapinject --total-fault-number 1 --min-interval 0 --max-interval 0 --fault-type reg --fault-location {{register}} --bit-index {{bit_index}} --observe-time 2s --snapshot-tag foo --serial-socket {{serial_socket}}
         {% endfor %}
         - monitor loadvm foo
         stdout: {{output}}
@@ -56,7 +56,7 @@ actions:
         run:
           steps:
           - echo "hello"
-          - sleep 60
+          - sleep 10
       # remember to use -y to allow apt to proceed without interaction
       # -q simplifies the apt output for logging.
       from: inline

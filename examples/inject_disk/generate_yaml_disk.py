@@ -86,7 +86,7 @@ actions:
           - functional
         run:
           steps:
-          - sleep 90
+          - sleep 10
     timeout:
       minutes: 5
 context:
@@ -98,6 +98,8 @@ context:
   - -qmp unix:/tmp/qmp-disk_program___SUFFIX__.sock,server=on,wait=off
   - -device pvpanic-pci
   - -action shutdown=pause,panic=none
+  - -chardev socket,path=/tmp/gdb-server-__SUFFIX__.sock,server=on,wait=off,id=gdb0
+  - -gdb chardev:gdb0
   guestfs_interface: virtio
   machine: virt
   memory: 4G
@@ -117,6 +119,7 @@ visibility: public
 
 # --- 4. 生成脚本主逻辑 ---
 
+
 def main():
     # 1. 创建输出目录
     if not os.path.exists(OUTPUT_DIR):
@@ -129,7 +132,7 @@ def main():
         # 2. 计算当前文件的参数
         suffix = str(i)
         ssh_port = BASE_SSH_PORT + i
-        
+
         # 从 0 到 600MB (包含) 之间随机选择一个字节偏移量
         # random.randint(a, b) 包含 a 和 b
         injection_offset = random.randint(0, MAX_OFFSET_BYTES)
@@ -144,15 +147,16 @@ def main():
         # 4. 写入文件
         file_name = f"disk_inject_{i}.yaml"
         file_path = os.path.join(OUTPUT_DIR, file_name)
-        
-        with open(file_path, 'w', encoding='utf-8') as f:
+
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
-            
+
     print("---")
     print(f"成功！ {TOTAL_FILES} 个文件已生成在 '{OUTPUT_DIR}' 目录中。")
     print(f"SSH端口范围: {BASE_SSH_PORT} - {BASE_SSH_PORT + TOTAL_FILES - 1}")
     print(f"注入偏移范围: 0 - {MAX_OFFSET_BYTES} 字节 (0 - {MAX_OFFSET_MB}MB)")
     print(f"注入大小: {INJECT_SIZE_BYTES} 字节 ({INJECT_SIZE_MB}MB)")
+
 
 if __name__ == "__main__":
     main()
