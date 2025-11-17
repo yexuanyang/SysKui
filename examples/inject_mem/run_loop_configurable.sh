@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 可配置的循环运行脚本 - 内存故障注入版本
-# 使用方法: ./run_loop_configurable.sh [mem_start] [mem_end] [start_port] [port_increment] [suffix_start] [suffix_end] [output_dir] [kernel] [qemu_number] [faults_per_job]
-# 例如: ./run_loop_configurable.sh 0x40000000 0x80000000 3800 100 1 10 /root/lava-qemu-flip/exp-results/jobs linux 16 4
+# 使用方法: ./run_loop_configurable.sh [mem_start] [mem_end] [start_port] [port_increment] [suffix_start] [suffix_end] [output_dir] [kernel] [qemu_number] [faults_per_job] [bytewidth]
+# 例如: ./run_loop_configurable.sh 0x40000000 0x80000000 3800 100 1 10 /root/lava-qemu-flip/exp-results/jobs linux 16 4 1
 # ./run_loop_configurable.sh 0x40000000 0x13fffffff 22000 64 1 10 /root/lava-qemu-flip/exp-results/jobs linux 64 1
 # Kernel code
 # ./run_loop_configurable.sh 0x40210000 0x41d4ffff 22000 64 11 20 /root/lava-qemu-flip/exp-results/jobs linux 64 1
@@ -21,6 +21,7 @@ OUTPUT_DIR=${7:-"/root/lava-qemu-flip/exp-results/jobs"}
 KERNEL=${8:-"linux"}
 QEMU_NUMBER=${9:-16}
 FAULTS_PER_JOB=${10:-4}
+BYTEWIDTH=${11:-1}
 
 echo "配置参数："
 echo "  内存范围: ${MEM_START} 到 ${MEM_END}"
@@ -31,6 +32,7 @@ echo "  后缀结束处(包含): ${SUFFIX_END}"
 echo "  内核类型: ${KERNEL}"
 echo "  每个任务的QEMU实例数: ${QEMU_NUMBER}"
 echo "  每个任务注入的故障数: ${FAULTS_PER_JOB}"
+echo "  字节宽度: ${BYTEWIDTH}"
 echo "  预计运行任务数: $((SUFFIX_END - SUFFIX_START + 1))"
 echo "  输出目录: ${OUTPUT_DIR}"
 echo ""
@@ -55,7 +57,7 @@ fail_count=0
 for suffix in $(seq $SUFFIX_START $SUFFIX_END); do
     job_file="${OUTPUT_DIR}/${KERNEL}-mem-${suffix}.txt"
     
-    echo "[$((success_count + fail_count + 1))] 正在运行: --kernel ${KERNEL} --suffix ${suffix} --mem-start ${MEM_START} --mem-end ${MEM_END} -j ${job_file} -p ${port} --qemu-number ${QEMU_NUMBER} --faults-per-job ${FAULTS_PER_JOB}"
+    echo "[$((success_count + fail_count + 1))] 正在运行: --kernel ${KERNEL} --suffix ${suffix} --mem-start ${MEM_START} --mem-end ${MEM_END} -j ${job_file} -p ${port} --qemu-number ${QEMU_NUMBER} --faults-per-job ${FAULTS_PER_JOB} --bytewidth ${BYTEWIDTH}"
     
     # 执行命令
     python3 generate_job.py \
@@ -67,6 +69,7 @@ for suffix in $(seq $SUFFIX_START $SUFFIX_END); do
         -p ${port} \
         --qemu-number ${QEMU_NUMBER} \
         --faults-per-job ${FAULTS_PER_JOB} \
+        --bytewidth ${BYTEWIDTH} \
         --xmlrpc-url http://admin:longrandomtokenadmin@127.0.0.1:9999/RPC2/
     
     # 检查命令是否成功执行

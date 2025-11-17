@@ -13,6 +13,7 @@ def gen_data(
     suffix: int,
     kernel: str,
     faults_per_job: int,
+    bytewidth: int,
 ):
     """
     Generate data for memory fault injection job
@@ -49,6 +50,7 @@ def gen_data(
         "kernel": kernel,
         "mem_start": hex(mem_start),
         "mem_end": hex(mem_end),
+        "bytewidth": bytewidth,
     }
     return data
 
@@ -128,6 +130,12 @@ if __name__ == "__main__":
         type=int,
         default=None,
     )
+    parser.add_argument(
+        "--bytewidth",
+        help="bytewidth of address",
+        type=int,
+        default=1,
+    )
 
     args = parser.parse_args()
 
@@ -135,7 +143,7 @@ if __name__ == "__main__":
     try:
         mem_start = int(args.mem_start, 16)
         mem_end = int(args.mem_end, 16)
-        if mem_start >= mem_end:
+        if mem_start > mem_end:
             raise ValueError("mem_start must be less than mem_end")
     except ValueError as e:
         print(f"Error parsing memory addresses: {e}")
@@ -157,6 +165,7 @@ if __name__ == "__main__":
                 args.suffix,
                 args.kernel,
                 args.faults_per_job,
+                args.bytewidth,
             )
         )
         # Submit job
