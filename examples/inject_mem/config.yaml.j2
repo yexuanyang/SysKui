@@ -30,7 +30,7 @@ actions:
         - monitor savevm foo
         - loginject --filename {{logfile}}
         {% for address, bit_index in injection_params %}
-        - snapinject --total-fault-number 1 --min-interval 0 --max-interval 0 --fault-type ram --fault-location {{address}} --bit-index {{bit_index}} --bytewidth {{bytewidth}} --observe-time 2s --snapshot-tag foo --serial-socket {{serial_socket}}
+        - snapinject --total-fault-number 1 --min-interval 0 --max-interval 0 --fault-type ram --fault-location {{address}} --bit-index {{bit_index}} --bytewidth {{bytewidth}} --observe-time 2s --snapshot-tag foo --serial-socket {{serial_socket}} {{additional_args}}
         {% endfor %}
         - monitor loadvm foo
         stdout: {{output}}
@@ -57,6 +57,7 @@ actions:
           steps:
           - echo "Memory fault injection test"
           - sleep 40
+          - ping -c 5 127.0.0.1
       # remember to use -y to allow apt to proceed without interaction
       # -q simplifies the apt output for logging.
       from: inline

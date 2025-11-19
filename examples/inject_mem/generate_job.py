@@ -14,6 +14,7 @@ def gen_data(
     kernel: str,
     faults_per_job: int,
     bytewidth: int,
+    additional_args: str = "",
 ):
     """
     Generate data for memory fault injection job
@@ -24,6 +25,8 @@ def gen_data(
     :param: suffix - suffix for log files
     :param: kernel - kernel type to use
     :param: faults_per_job - number of faults to inject per job
+    :param: bytewidth - byte width for fault injection
+    :param: additional_args - additional arguments to pass to snapinject command
     :return: the dict to render the config.yaml
     """
     identifier = f"{kernel}-{number}-mem-{suffix}"
@@ -34,7 +37,7 @@ def gen_data(
         # Random address within the specified range
         addr = random.randint(mem_start, mem_end)
         # Random bit index (0-7 for byte-level injection, 0-63 for 8-byte)
-        bit_idx = random.randint(0, 7)
+        bit_idx = random.randint(0, bytewidth * 8)
         injection_params.append((hex(addr), bit_idx))
 
     data = {
@@ -51,6 +54,7 @@ def gen_data(
         "mem_start": hex(mem_start),
         "mem_end": hex(mem_end),
         "bytewidth": bytewidth,
+        "additional_args": additional_args,
     }
     return data
 
@@ -136,6 +140,12 @@ if __name__ == "__main__":
         type=int,
         default=1,
     )
+    parser.add_argument(
+        "--additional-args",
+        help="Additional arguments to pass to snapinject command (e.g., '--no-snapshot')",
+        type=str,
+        default="",
+    )
 
     args = parser.parse_args()
 
@@ -166,6 +176,7 @@ if __name__ == "__main__":
                 args.kernel,
                 args.faults_per_job,
                 args.bytewidth,
+                args.additional_args,
             )
         )
         # Submit job

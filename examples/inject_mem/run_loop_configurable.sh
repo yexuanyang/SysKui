@@ -8,7 +8,8 @@
 # ./run_loop_configurable.sh 0x40210000 0x41d4ffff 22000 64 11 20 /root/lava-qemu-flip/exp-results/jobs linux 64 1
 # Kernel data
 # ./run_loop_configurable.sh 0x42650000 0x42b1ffff 22000 64 21 30 /root/lava-qemu-flip/exp-results/jobs linux 64 1
-# 
+# MMIO Reg
+# ./run_loop_configurable.sh 0x10400000 0x10400000 22000 64 1 1 /root/lava-qemu-flip/exp-results/jobs linux 64 4 4
 
 # 默认参数
 MEM_START=${1:-"0x40000000"}
